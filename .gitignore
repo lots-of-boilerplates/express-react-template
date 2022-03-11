@@ -1,2 +1,7 @@
 node_modules
 dist
+.gitignore
+.idea
+error.log
+combined.log
+api/dist

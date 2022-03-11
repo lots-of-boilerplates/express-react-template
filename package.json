@@ -9,22 +9,47 @@
   "scripts": {
     "install-all": "npm install && npm install --prefix client",
     "start": "node ./api/dist/index.js",
-    "server": "nodemon ./api/dist/index.js",
+    "migrate:db": "cd api/src && sequelize db:migrate --env production --url $DATABASE_URL && cd ../..",
+    "server": "nodemon --ignore tmpwrite --inspect ./api/dist/index.js",
     "client": "npm run start --prefix client",
     "dev": "concurrently \"tsc -w\" \"npm run server\" \"npm run client\"",
-    "build": "tsc",
-    "heroku-postbuild": "tsc && NPM_CONFIG_PRODUCTION=false npm install --prefix client --force && npm run build --prefix client"
+    "clean-modules": "shx rm -rf node_modules",
+    "clean": "shx rm -rf api/dist",
+    "tsc": "tsc",
+    "build": "npm-run-all install-tsc migrate:db tsc",
+    "install-tsc": "npm install -g typescript",
+    "heroku-postbuild": "npm-run-all install-tsc migrate:db tsc solspin-install solspin-build solspin-clean-modules clean-modules"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@adminjs/express": "^4.1.0",
+    "@adminjs/sequelize": "^2.1.4",
+    "@solana/spl-token": "^0.2.0",
+    "@solana/web3.js": "^1.36.0",
+    "@types/bs58": "^4.0.1",
+    "@types/cors": "^2.8.12",
+    "adminjs": "^5.7.3",
     "concurrently": "^6.3.0",
-    "express": "^4.17.1"
+    "connect-session-sequelize": "^7.1.2",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.2",
+    "npm-run-all": "^4.1.5",
+    "path": "^0.12.7",
+    "pg": "^8.7.3",
+    "sequelize": "^6.17.0",
+    "sequelize-cli": "^6.4.1",
+    "shx": "^0.3.4",
+    "winston": "^3.6.0",
+    "yarn": "^1.22.17"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
-    "nodemon": "^2.0.14",
-    "typescript": "^4.4.4"
+    "nodemon": "^2.0.15",
+    "typescript": "^4.6.2"
   }
 }
