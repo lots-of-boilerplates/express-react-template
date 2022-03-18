@@ -5,3 +5,4 @@ dist
 error.log
 combined.log
 api/dist
+.vscode

@@ -4,6 +4,7 @@ import winston from "winston";
 import {logger} from "./logger";
 import process from "process";
 import fs from "fs";
+import {compareAsync} from "./auth/auth";
 
 const dotenv = require("dotenv");
 dotenv.config({path: __dirname + '/.env'});
@@ -62,8 +63,7 @@ const app = express();
             if (!user) {
               return false;
             }
-            // const result = await compareAsync(password, user.password);
-            const result = password == user.password;
+            const result = await compareAsync(password, user.password);
             if (result) {
               return user;
             } else {

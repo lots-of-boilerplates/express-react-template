@@ -9,7 +9,7 @@ const env = process.env.NODE_ENV || 'development';
 const config = {
   "username": "postgres",
   "password": "1",
-  "database": "database_development",
+  "database": "express-react-template",
   "host": "127.0.0.1",
   "dialect": "postgres",
   "port": "5432"
